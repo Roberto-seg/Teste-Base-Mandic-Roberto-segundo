@@ -45,8 +45,7 @@ services:
       - db
 
   tomcat:
-    image: robertoseg/tomcat:0.1
-    #image: brnnnxd/tomcat:0.0.1 
+    image: robertoseg/tomcat:0.1 
     ports: 
       - 8080:8080
     container_name: tomcat
