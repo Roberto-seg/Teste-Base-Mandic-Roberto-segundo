@@ -1,0 +1,60 @@
+version: "3.3"
+
+services:
+
+  nginx:
+    image: robertoseg/nginx:2.0
+    ports:
+      - 80:80
+    container_name: nginx
+    restart: always
+    
+  db:
+    image: robertoseg/mysql:0.2
+    ports:
+      - 3306:3306
+    container_name: mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: wordpressdb
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpresspw
+
+  wordpress:
+    depends_on:
+      - db
+    image: robertoseg/wordpress:1.0
+    ports:
+      - 8082:80
+    container_name: wordpress
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpressdb
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpresspw
+
+  magento:
+    image: robertoseg/magento:0.1
+    ports:
+      - 8083:80
+    container_name: magento
+    depends_on:
+      - db
+
+  tomcat:
+    image: robertoseg/tomcat:0.1
+    ports: 
+      - 8080:8080
+    container_name: tomcat
+
+  site:
+    image: robertoseg/site:3.0
+    ports:
+      - 8081:80
+    container_name: site
+
+volumes:
+  db_data: {}

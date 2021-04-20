@@ -1,0 +1,75 @@
+---
+- name: Setup
+  hosts: 192.168.1.4
+  #connection: remote
+  become: yes
+  remote_user: root
+
+  tasks:
+  
+  - name: Update S.O
+    yum:
+      name: '*'
+      state: latest
+      update_cache: yes
+      
+  - name: Baixando epel-release
+    yum:
+      name: epel-release
+      state: latest
+
+  - name: Install Nginx
+    yum:
+      name: nginx
+      state: present
+
+  - name: Start Nginx
+    service:
+      name: nginx
+      state: started
+          
+  - name: Start and enable the Nginx daemon
+    service: name=nginx state=started enabled=yes
+
+  - name: Iptables - Allow port 80/H
+    iptables:
+      chain: INPUT
+      destination_port: 80
+      jump: ACCEPT
+      protocol: tcp
+
+  - name: Disable SELinux
+    selinux:
+      state: disabled
+
+
+  - name: Install pre-requisite packages Docker
+    yum:
+      name: "{{item}}"
+      state: latest
+    loop:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+
+  - name: Add Docker CE repo
+    get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docker-ce.repo
+
+  - name: Install Docker
+    yum: name=docker state=latest
+
+  - name: Start and enable the Docker daemon
+    service: name=docker state=started enabled=yes
+
+  - name: Instalando Docker Composer  
+    shell: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
+
+  - name: Adcionando Docker composer 
+    template:
+      src: docker-compose.yml
+      dest: /etc/docker
+
+  - name: Executa Docker Composer 
+    shell: cd /etc/docker && docker-compose up -d 
