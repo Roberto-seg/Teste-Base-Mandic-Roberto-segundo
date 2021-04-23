@@ -51,6 +51,14 @@
 
   - name: Instalando Docker Composer  
     shell: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    
+  - name: Permissões executáveis ao binário
+    shell: sudo chmod +x /usr/local/bin/docker-compose
+     
+  - name: Link simbolico 
+    shell: sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose  
+
+  - name: Adcionando Docker composer
     template:
       src: docker-compose.yml
       dest: /etc/docker
