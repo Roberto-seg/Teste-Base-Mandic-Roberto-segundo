@@ -1,7 +1,6 @@
 ---
 - name: Setup
   hosts: localhost
-  #connection: remote
   become: yes
   remote_user: root
 
