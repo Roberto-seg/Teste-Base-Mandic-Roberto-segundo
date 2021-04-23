@@ -50,9 +50,7 @@
     service: name=docker state=started enabled=yes
 
   - name: Instalando Docker Composer  
-    shell: curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
-
-  - name: Adcionando Docker composer 
+    shell: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     template:
       src: docker-compose.yml
       dest: /etc/docker
