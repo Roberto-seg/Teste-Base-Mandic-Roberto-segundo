@@ -2,7 +2,7 @@
 - name: Setup
   hosts: localhost
   become: yes
-  remote_user: root
+  become_method: sudo
 
   tasks:
   
@@ -20,7 +20,7 @@
   - name: Iptables - Allow port 80/H
     iptables:
       chain: INPUT
-      destination_port: 80
+      destination_port: '80'
       jump: ACCEPT
       protocol: tcp
 
