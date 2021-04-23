@@ -1,6 +1,6 @@
 ---
 - name: Setup
-  hosts: 192.168.1.4
+  hosts: localhost
   #connection: remote
   become: yes
   remote_user: root
