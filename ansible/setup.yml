@@ -17,19 +17,6 @@
       name: epel-release
       state: latest
 
-  - name: Install Nginx
-    yum:
-      name: nginx
-      state: present
-
-  - name: Start Nginx
-    service:
-      name: nginx
-      state: started
-          
-  - name: Start and enable the Nginx daemon
-    service: name=nginx state=started enabled=yes
-
   - name: Iptables - Allow port 80/H
     iptables:
       chain: INPUT
