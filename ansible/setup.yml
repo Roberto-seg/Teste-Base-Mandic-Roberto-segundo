@@ -64,5 +64,4 @@
       dest: /etc/docker
 
   - name: Executa Docker Composer 
-    shell: cd /etc/docker \
-           docker-compose up -d 
+    shell: cd /etc/docker && docker-compose up -d 
